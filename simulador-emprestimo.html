@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConsigSim - Simulador de Empréstimo Consignado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'loan-blue': '#004aad',
+                        'loan-blue-hover': '#003a8c',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <svg class="h-8 w-8 text-loan-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-gray-900">ConsigSim</h1>
+                </div>
+                <span class="bg-loan-blue text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Simulador Oficial
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Simule seu Empréstimo Consignado
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+                    Descubra quanto você pode conseguir de empréstimo com base no seu benefício.
+                    Cálculo rápido, seguro e gratuito.
+                </p>
+                
+                <!-- Stats Section -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <svg class="h-8 w-8 text-loan-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                        <div class="text-2xl font-bold text-gray-900">Sem limite</div>
+                        <div class="text-sm text-gray-600">Valores</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <svg class="h-8 w-8 text-loan-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                        <div class="text-2xl font-bold text-gray-900">35%</div>
+                        <div class="text-sm text-gray-600">Margem máxima</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <svg class="h-8 w-8 text-loan-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="text-2xl font-bold text-gray-900">96x</div>
+                        <div class="text-sm text-gray-600">Parcelamento</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <svg class="h-8 w-8 text-loan-blue mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                        <div class="text-2xl font-bold text-gray-900">8 anos</div>
+                        <div class="text-sm text-gray-600">Experiência</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <!-- Calculator Card -->
+                <div class="bg-white shadow-xl rounded-lg border-0">
+                    <div class="bg-loan-blue text-white rounded-t-lg p-6">
+                        <h3 class="text-2xl font-bold flex items-center gap-2">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            Calculadora de Empréstimo
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <label for="beneficio" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Nome do benefício:
+                                </label>
+                                <input
+                                    id="beneficio"
+                                    type="text"
+                                    placeholder="Ex: LOAS, INSS, Aposentadoria"
+                                    class="w-full h-12 px-4 text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-loan-blue focus:border-transparent"
+                                />
+                            </div>
+
+                            <div>
+                                <label for="salario" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Salário recebido (R$):
+                                </label>
+                                <input
+                                    id="salario"
+                                    type="number"
+                                    placeholder="Ex: 1250"
+                                    class="w-full h-12 px-4 text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-loan-blue focus:border-transparent"
+                                />
+                            </div>
+
+                            <button
+                                onclick="calcular()"
+                                class="w-full h-14 text-lg font-semibold bg-loan-blue hover:bg-loan-blue-hover text-white rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+                            >
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                                Calcular Empréstimo
+                            </button>
+                        </div>
+
+                        <!-- Results -->
+                        <div id="resultado-section" class="mt-8 hidden">
+                            <hr class="border-gray-200 mb-6">
+                            <div id="resultado-box" class="p-6 rounded-lg border-2">
+                                <div class="flex items-center mb-4">
+                                    <svg id="resultado-icon" class="h-6 w-6 mr-2"></svg>
+                                    <h3 id="resultado-title" class="text-lg font-semibold text-gray-900"></h3>
+                                </div>
+                                <div id="resultado-content" class="text-base"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Benefits Info -->
+                <div class="space-y-6">
+                    <div class="bg-white shadow-lg rounded-lg">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold flex items-center gap-2">
+                                <svg class="h-5 w-5 text-loan-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Tipos de Benefício
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">INSS</h4>
+                                        <p class="text-sm text-gray-600">Aposentadoria e Pensão</p>
+                                    </div>
+                                    <span class="bg-loan-blue text-white px-3 py-1 rounded-full text-sm font-medium">35%</span>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">LOAS/BPC</h4>
+                                        <p class="text-sm text-gray-600">Benefício de Prestação Continuada</p>
+                                    </div>
+                                    <span class="bg-loan-blue text-white px-3 py-1 rounded-full text-sm font-medium">30%</span>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Invalidez</h4>
+                                        <p class="text-sm text-gray-600">Auxílio por Incapacidade</p>
+                                    </div>
+                                    <span class="bg-loan-blue text-white px-3 py-1 rounded-full text-sm font-medium">35%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white shadow-lg rounded-lg">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-loan-blue">Por que escolher nosso simulador?</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <svg class="h-5 w-5 text-loan-blue mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Cálculo Instantâneo</h4>
+                                        <p class="text-sm text-gray-600">Resultado em segundos</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="h-5 w-5 text-loan-blue mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">100% Seguro</h4>
+                                        <p class="text-sm text-gray-600">Seus dados protegidos</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="h-5 w-5 text-loan-blue mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Atendimento Especializado</h4>
+                                        <p class="text-sm text-gray-600">Suporte completo</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="h-5 w-5 text-loan-blue mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Melhores Taxas</h4>
+                                        <p class="text-sm text-gray-600">Condições exclusivas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">
+                    O que nossos clientes dizem
+                </h3>
+                <div class="flex justify-center mb-8">
+                    <div class="flex space-x-1">
+                        <svg class="h-6 w-6 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <svg class="h-6 w-6 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <svg class="h-6 w-6 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <svg class="h-6 w-6 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <svg class="h-6 w-6 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex space-x-1">
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">"Consegui R$ 15.000 de forma rápida e segura. O simulador me ajudou a entender exatamente quanto eu poderia pegar."</p>
+                    <div class="text-sm">
+                        <p class="font-semibold text-gray-900">Maria Silva</p>
+                        <p class="text-gray-600">Aposentada INSS</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex space-x-1">
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">"Processo muito transparente e sem surpresas. Recomendo para quem precisa de um empréstimo consignado confiável."</p>
+                    <div class="text-sm">
+                        <p class="font-semibold text-gray-900">João Santos</p>
+                        <p class="text-gray-600">Beneficiário LOAS</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex space-x-1">
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <svg class="h-4 w-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">"Atendimento excelente e condições justas. O simulador é muito preciso e me deu confiança para prosseguir."</p>
+                    <div class="text-sm">
+                        <p class="font-semibold text-gray-900">Ana Costa</p>
+                        <p class="text-gray-600">Pensionista</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-loan-blue text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-3xl font-bold mb-4">
+                Pronto para simular seu empréstimo?
+            </h3>
+            <p class="text-xl mb-8 opacity-90">
+                Descubra em minutos quanto você pode conseguir com seu benefício
+            </p>
+            <button 
+                onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                class="bg-white text-loan-blue hover:bg-gray-100 text-lg px-8 py-3 rounded-md font-semibold transition-colors duration-200"
+            >
+                Simular Agora
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        <h4 class="text-lg font-bold">ConsigSim</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Simulador oficial de empréstimo consignado para beneficiários do INSS e outros órgãos públicos.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Benefícios</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>INSS - 35%</li>
+                        <li>LOAS/BPC - 30%</li>
+                        <li>Invalidez - 35%</li>
+                        <li>Pensão - 35%</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Vantagens</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>Juros baixos</li>
+                        <li>Desconto em folha</li>
+                        <li>Sem consulta ao SPC/Serasa</li>
+                        <li>Aprovação rápida</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contato</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>📞 (11) 98477-3513</li>
+                        <li>📧 macedocred.sp@gmail.com</li>
+                        <li>🕒 Seg-Sex: 8h às 18h</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-gray-700 mb-6">
+            <div class="text-center">
+                <p class="text-gray-400 mb-2">
+                    © 2024 ConsigSim. Simulador de Empréstimo Consignado.
+                </p>
+                <p class="text-xs text-gray-500">
+                    Os valores apresentados são estimativas. Consulte sempre um especialista para condições finais.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function formatCurrency(value) {
+            return value.toFixed(2).replace('.', ',');
+        }
+
+        function calcular() {
+            const beneficio = document.getElementById('beneficio').value.trim().toLowerCase();
+            const salario = parseFloat(document.getElementById('salario').value);
+            const resultadoSection = document.getElementById('resultado-section');
+            const resultadoBox = document.getElementById('resultado-box');
+            const resultadoIcon = document.getElementById('resultado-icon');
+            const resultadoTitle = document.getElementById('resultado-title');
+            const resultadoContent = document.getElementById('resultado-content');
+
+            if (!beneficio || isNaN(salario) || salario <= 0) {
+                // Error state
+                resultadoSection.classList.remove('hidden');
+                resultadoBox.className = 'p-6 rounded-lg border-2 bg-red-50 border-red-200';
+                resultadoIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                resultadoIcon.className = 'h-6 w-6 text-red-600 mr-2';
+                resultadoIcon.setAttribute('fill', 'none');
+                resultadoIcon.setAttribute('stroke', 'currentColor');
+                resultadoIcon.setAttribute('viewBox', '0 0 24 24');
+                resultadoTitle.textContent = 'Erro na Simulação';
+                resultadoContent.textContent = 'Por favor, preencha todos os campos corretamente.';
+                resultadoContent.className = 'text-base text-red-700';
+                return;
+            }
+
+            // Define margin based on benefit type
+            const margemPercentual = (
+                beneficio.includes('loas') || 
+                beneficio.includes('bpc')
+            ) ? 0.30 : 0.35;
+
+            const margem = salario * margemPercentual;
+            const valorLiberado = margem / 0.02820;
+
+            // Success state
+            resultadoSection.classList.remove('hidden');
+            resultadoBox.className = 'p-6 rounded-lg border-2 bg-green-50 border-green-200';
+            resultadoIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+            resultadoIcon.className = 'h-6 w-6 text-green-600 mr-2';
+            resultadoIcon.setAttribute('fill', 'none');
+            resultadoIcon.setAttribute('stroke', 'currentColor');
+            resultadoIcon.setAttribute('viewBox', '0 0 24 24');
+            resultadoTitle.textContent = 'Resultado da Simulação';
+            resultadoContent.innerHTML = `
+                ✅ Margem (${(margemPercentual * 100).toFixed(0)}%): R$ ${formatCurrency(margem)}<br>
+                💳 Valor liberado estimado: <strong>R$ ${formatCurrency(valorLiberado)}</strong>
+            `;
+            resultadoContent.className = 'text-base text-green-700';
+        }
+
+        // Allow Enter key to trigger calculation
+        document.getElementById('beneficio').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calcular();
+            }
+        });
+
+        document.getElementById('salario').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calcular();
+            }
+        });
+    </script>
+</body>
+</html>
